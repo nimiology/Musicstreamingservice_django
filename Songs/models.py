@@ -1,22 +1,14 @@
 from django.db import models
-import os
-from django.core.exceptions import ValidationError
-
-def Validator(value):
-    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
-    valid_extensions = ['.mp3','.wave']
-    if not ext.lower() in valid_extensions:
-        raise ValidationError('song should be MP3 or WAVE')
-
+from .Ulitis import Validator,upload_image_path,upload_song_path
 
 # Create your models here.
-#TODO: Cover va song be soorat unique tolid beshan
+#TODO: use many to many for ARTIST
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
-    Cover = models.ImageField(upload_to=f'singleTrack/cover')
-    Song = models.FileField(validators=[Validator],upload_to='singleTrack/song')
+    Cover = models.ImageField(upload_to=upload_image_path)
+    Song = models.FileField(validators=[Validator],upload_to=upload_song_path)
 
 
     def __str__(self):
