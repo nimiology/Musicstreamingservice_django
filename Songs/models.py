@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 
 def Validator(value):
     ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
-    valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls']
+    valid_extensions = ['.mp3','.wave']
     if not ext.lower() in valid_extensions:
         raise ValidationError('Unsupported file extension.')
 
@@ -16,3 +16,7 @@ class SingleTrack(models.Model):
     Slug = models.SlugField(unique=True)
     Cover = models.ImageField(upload_to='',unique=True)
     Song = models.FileField(validators=[Validator])
+
+
+    def __str__(self):
+        return self.Title
