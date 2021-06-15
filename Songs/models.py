@@ -13,3 +13,7 @@ class SingleTrack(models.Model):
 
     def __str__(self):
         return self.Title
+
+
+#TODO: Album Model With many to many
+
