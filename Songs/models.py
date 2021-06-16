@@ -15,9 +15,12 @@ class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
-    Cover = models.ImageField(upload_to=upload_image_path)
-    Song = models.FileField(validators=[Validator],upload_to=upload_song_path)
-
+    Album = models.ManyToManyField(Album, related_name="Album")
+    Features = models.CharField(max_length=2048,blank=True)
+    Producers = models.CharField(max_length=1000)
+    TrackNumber = models.IntegerField(default=0)
+    DiscNumber = models.IntegerField(default=0)
+    SongFile = models.FileField(validators=[Validator],upload_to=upload_song_path,unique=True)
 
     def __str__(self):
         return self.Title
