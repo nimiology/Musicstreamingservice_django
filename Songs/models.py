@@ -25,5 +25,4 @@ class SingleTrack(models.Model):
     def __str__(self):
         return self.Title
 
-#TODO: album works but i don't like it this way I have to change manytomany to another relationship in django
-
+#TODO: album works but i don't like this way I have to change manytomany to another relationship in django
