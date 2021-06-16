@@ -1,8 +1,16 @@
 from django.db import models
 from .Ulitis import Validator,upload_image_path,upload_song_path
 
-# Create your models here.
-#TODO: use many to many for ARTIST
+class Album(models.Model):
+    Title = models.CharField(max_length=1000)
+    Artist = models.CharField(max_length=1000)
+    Cover = models.ImageField(upload_to=upload_image_path,unique=True)
+    Slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.Title
+
+
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
@@ -14,6 +22,5 @@ class SingleTrack(models.Model):
     def __str__(self):
         return self.Title
 
-
-#TODO: Album Model With many to many
+#TODO: album works but i don't like it this way I have to change manytomany to another relationship in django
 
