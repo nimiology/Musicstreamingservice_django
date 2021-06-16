@@ -1,9 +1,19 @@
-<title>{{ searchword }}</title>
-{% for single in Singlefound %}
-    {{ single.Title }}
+SEARCH!
+<br>
+<form method="post">
+    {% csrf_token %}
+    {{ FORMS }}
     <br>
-{% endfor %}
-{% for Album in Albumfound %}
-    {{ Albumfound.Title }}
-    <br>
-{% endfor %}
+    <button type="submit">SEARCH</button>
+</form>
+{% if Singlefound %}
+    <title>{{ searchword }}</title>
+    {% for single in Singlefound %}
+        {{ single.Title }}
+        <br>
+    {% endfor %}
+    {% for Album in Albumfound %}
+        {{ Albumfound.Title }}
+        <br>
+    {% endfor %}
+{% endif %}

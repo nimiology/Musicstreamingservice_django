@@ -3,5 +3,5 @@ from .views import Search
 
 app_name = 'Songs'
 urlpatterns = [
-    path('search/<TITLE>',Search)
+    path('search',Search)
 ]
