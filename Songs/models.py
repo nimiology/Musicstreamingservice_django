@@ -4,7 +4,7 @@ from .Ulitis import Validator,upload_image_path,upload_song_path
 class Album(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
-    Cover = models.ImageField(upload_to=upload_image_path,unique=True)
+    Cover = models.ImageField(upload_to=upload_image_path)
     Slug = models.SlugField(unique=True)
 
     def __str__(self):
