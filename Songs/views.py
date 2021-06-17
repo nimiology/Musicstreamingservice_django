@@ -4,6 +4,13 @@ from .forms import SEARCH
 
 
 #TODO: FRONT-END
+def SINGLETRACK(request,Slug):
+    SINGLETRACK = get_object_or_404(SingleTrack,Slug=Slug)
+    context = {
+        'Single':SINGLETRACK
+    }
+    return render(request,'Songs/SingleTrack.html',context)
+
 def ALBUM(request,Slug):
     Albums = get_object_or_404(Album,Slug=Slug)
     singletrack_list = Albums.SingleTrack.all()
