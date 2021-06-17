@@ -24,8 +24,9 @@ class SIGNUP(forms.Form):
         if qs.exists():
             raise forms.ValidationError('Email is already taken')
         return EMAIL
+
     def clean_UserName(self):
-        pass
+        p
     def clean(self):
         DATA =self.cleaned_data
         pass1 = DATA['Password1']

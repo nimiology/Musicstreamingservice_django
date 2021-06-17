@@ -4,14 +4,15 @@ from .forms import SIGNUP
 #TODO: SIGN UP
 def SignUp(request):
     print(f'[LOGIN STATUS]{request.user.is_authenticated}')
+    FORMS = SIGNUP(request.POST or None)
     if not request.user.is_authenticated:
         context = {
-            'forms':SIGNUP
+            'forms':FORMS
         }
         return render(request, 'auth/SignUp.html', context)
     else:
         context = {
-            'forms': SIGNUP
+            'forms': FORMS
         }
         return render(request, 'auth/SignUp.html', context)
 #TODO: SIGN IN
