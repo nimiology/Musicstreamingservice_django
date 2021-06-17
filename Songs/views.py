@@ -20,6 +20,8 @@ def ALBUM(request,Slug):
     }
 
     return render(request, 'Songs/Album.html', context)
+
+
 #SEARCH
 def Search(request):
     if request.method == 'POST':
@@ -40,6 +42,4 @@ def Search(request):
         return render(request,'Songs/Search.html',context)
 #TODO: API
 #TODO: COMMENTS
-#TODO: SIGN UP
-#TODO: SIGN IN
 #TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT

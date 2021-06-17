@@ -10,7 +10,7 @@ class Album(models.Model):
     def __str__(self):
         return self.Title
 
-
+#TODO: ADD LIMITATION FOR ALBUM
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
