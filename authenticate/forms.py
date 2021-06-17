@@ -26,7 +26,7 @@ class SIGNUP(forms.Form):
         return EMAIL
 
     def clean_UserName(self):
-        p
+        pass
     def clean(self):
         DATA =self.cleaned_data
         pass1 = DATA['Password1']
