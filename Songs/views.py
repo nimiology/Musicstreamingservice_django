@@ -1,11 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import SingleTrack,Album
 from .forms import SEARCH
-# Create your views here.
 
 
 #TODO: FRONT-END
+def ALBUM(request,Slug):
+    Albums = get_object_or_404(Album,Slug=Slug)
+    singletrack_list = Albums.SingleTrack.all()
+    context = {
+        'Singles': singletrack_list,
+        'Album':Albums
+    }
 
+    return render(request, 'Songs/Album.html', context)
+#SEARCH
 def Search(request):
     if request.method == 'POST':
         TITLE = request.POST['Search']
@@ -27,4 +35,4 @@ def Search(request):
 #TODO: COMMENTS
 #TODO: SIGN UP
 #TODO: SIGN IN
-
+#TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT

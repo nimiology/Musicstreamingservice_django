@@ -15,7 +15,7 @@ class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
-    Album = models.ManyToManyField(Album, related_name="Album")
+    Album = models.ManyToManyField(Album, related_name="SingleTrack")
     Features = models.CharField(max_length=2048,blank=True)
     Producers = models.CharField(max_length=1000)
     TrackNumber = models.IntegerField(default=0)
