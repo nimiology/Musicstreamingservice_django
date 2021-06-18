@@ -26,11 +26,17 @@ class SIGNUP(forms.Form):
         return EMAIL
 
     def clean_UserName(self):
-        pass
+        USERNAME = self.cleaned_data['UserName']
+        qs = USER.objects.filter(username=USERNAME)
+        if qs.exists():
+            raise forms.ValidationError('Usename is already taken')
+        return USERNAME
     def clean(self):
         DATA =self.cleaned_data
         pass1 = DATA['Password1']
         pass2 = DATA['Password2']
-        if pass1 != pass2:
-            raise forms.ValidationError("PASSWORD doesn't match")
+        if len(pass1)<8:
+            raise forms.ValidationError("PASSWORD must be 8 letter at least!")
+        elif pass1 != pass2:
+            raise forms.ValidationError("PASSWORD doesn't match1")
         return DATA
