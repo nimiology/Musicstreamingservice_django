@@ -34,7 +34,6 @@ def LogIn(request):
         "LOGIN": 'YOU ARE NOT IN!'
     }
 
-
     if FORMS.is_valid():
         DATA = FORMS.cleaned_data
         print(DATA)
