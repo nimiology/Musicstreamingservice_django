@@ -11,6 +11,7 @@ class SIGNUP(forms.Form):
         widget=forms.EmailInput())
 
     Password1 = forms.CharField(
+        label='Password',
         widget=forms.PasswordInput())
 
     Password2 = forms.CharField(
@@ -42,8 +43,8 @@ class SIGNUP(forms.Form):
         return DATA
 
 class LOGIN(forms.Form):
-    Email = forms.EmailField(
-        widget=forms.EmailInput())
+    UserName = forms.CharField(
+        widget=forms.TextInput())
     Password = forms.CharField(
         widget=forms.PasswordInput()
     )
