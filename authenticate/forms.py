@@ -40,3 +40,17 @@ class SIGNUP(forms.Form):
         elif pass1 != pass2:
             raise forms.ValidationError("PASSWORD doesn't match1")
         return DATA
+
+class LOGIN(forms.Form):
+    Email = forms.EmailField(
+        widget=forms.EmailInput())
+    Password = forms.CharField(
+        widget=forms.PasswordInput()
+    )
+
+    def clean(self):
+        DATA = self.cleaned_data
+        PASSWORD = DATA['Password']
+        if len(PASSWORD)<8:
+            raise forms.ValidationError("PASSWORD must be 8 letter at least!")
+        return DATA

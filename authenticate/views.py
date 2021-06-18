@@ -1,8 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .forms import SIGNUP
-# Create your views here.
-#TODO: SIGN UP
+from .forms import SIGNUP,LOGIN
+
 def SignUp(request):
     print(f'[LOGIN STATUS]{request.user.is_authenticated}')
     FORMS = SIGNUP(request.POST or None)
@@ -17,6 +16,15 @@ def SignUp(request):
         'forms':FORMS
     }
     return render(request, 'auth/SignUp.html', context)
-    #TODO: IF HE WAS LOGIN REDIRECT TO ADMIN
 
+#TODO: IF HE WAS LOGIN REDIRECT TO ADMIN
 #TODO: SIGN IN
+
+def LogIn(request):
+    print(f'[LOGIN STATUS]{request.user.is_authenticated}')
+    FORMS = LOGIN(request.POST or None)
+    context = {
+        'FORMS':FORMS
+    }
+
+    return render(request,'auth/LOGIN.html',context)
