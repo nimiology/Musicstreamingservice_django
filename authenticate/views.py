@@ -34,11 +34,11 @@ def LogIn(request):
         "LOGIN": 'YOU ARE NOT IN!'
     }
 
+
     if FORMS.is_valid():
         DATA = FORMS.cleaned_data
         print(DATA)
         USER = authenticate(request, username=DATA['UserName'], password=DATA['Password'])
-        print(USER)
         if USER is not None:
             print('[USER] FOUND!')
             login(request, USER)
