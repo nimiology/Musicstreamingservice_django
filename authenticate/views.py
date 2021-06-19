@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login
 from .forms import SIGNUP, LOGIN
-from .models import USERINFO
+from .models import USERSINFO
 
 def CREATEUSER(INFO):
-    USER = USERINFO(USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'])
+    USER = USERSINFO(USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'])
     USER.save()
 
 def SignUp(request):
@@ -29,7 +29,8 @@ def SignUp(request):
 
 #TODO: IF HE WAS LOGIN REDIRECT TO ADMIN
 #TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT
-
+#TODO: CHANGE PASSWORD AND USER NAME FEATURE
+#TODO: ADD PROFILE PIC WHEN ADMIN PANNEL IS READY
 
 def LogIn(request):
     print(f'[LOGIN STATUS]{request.user.is_authenticated}')
@@ -43,7 +44,7 @@ def LogIn(request):
     if FORMS.is_valid():
         DATA = FORMS.cleaned_data
         print(DATA)
-        username = USERINFO.objects.filter(EMAIL=DATA['EMAIL'])
+        username = USERSINFO.objects.filter(EMAIL=DATA['EMAIL'])
         print(username)
         try:
             username = username.values()[0]['USERNAME']

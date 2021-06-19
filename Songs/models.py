@@ -11,6 +11,8 @@ class Album(models.Model):
         return self.Title
 
 #TODO: ADD LIMITATION FOR ALBUM
+#TODO: ADD MANY TO MANY FOR ARTIST
+
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Artist = models.CharField(max_length=1000)
