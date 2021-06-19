@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login
 from .forms import SIGNUP, LOGIN
+from .models import USERINFO
 
+def CREATEUSER(INFO):
+    USER = USERINFO(USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'])
+    USER.save()
 
 def SignUp(request):
     print(f'[LOGIN STATUS]{request.user.is_authenticated}')
@@ -14,7 +18,8 @@ def SignUp(request):
     if FORMS.is_valid():
         USER = get_user_model()
         DATA = FORMS.cleaned_data
-        qs = USER.objects.create_user(username=DATA['UserName'], email=DATA['Email'], password=DATA['Password1'])
+        qs = USER.objects.create_user(username=DATA['UserName'], email=DATA['Email'], password=DATA['Password'])
+        CREATEUSER(DATA)
         print(DATA)
         context['SIGNUP'] = 'USER CREATED'
         return redirect('/signin')
@@ -23,7 +28,8 @@ def SignUp(request):
 
 
 #TODO: IF HE WAS LOGIN REDIRECT TO ADMIN
-#TODO: ADD EMIAL FOR AUTHENTICATE
+#TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT
+
 
 def LogIn(request):
     print(f'[LOGIN STATUS]{request.user.is_authenticated}')
@@ -37,13 +43,16 @@ def LogIn(request):
     if FORMS.is_valid():
         DATA = FORMS.cleaned_data
         print(DATA)
-        USER = authenticate(request, username=DATA['UserName'], password=DATA['Password'])
-        if USER is not None:
-            print('[USER] FOUND!')
-            login(request, USER)
-            context['LOGIN'] = 'YOU ARE IN!'
-            return redirect('/')
-        else:
-            print('[USER] NOT FOUND!')
+        username = USERINFO.objects.filter(EMAIL=DATA['EMAIL'])
+        print(username)
+        try:
+            username = username.values()[0]['USERNAME']
+            USER = authenticate(request, username=username, password=DATA['Password'])
+            if USER is not None:
+                login(request, USER)
+                context['LOGIN'] = 'YOU ARE IN!'
+                return redirect('/')
+        except:
+            print("[LOGIN] User doesn't FOUND!")
 
     return render(request, 'auth/LOGIN.html', context)

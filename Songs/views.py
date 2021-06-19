@@ -3,6 +3,7 @@ from .models import SingleTrack,Album
 from .forms import SEARCH
 
 
+
 #TODO: FRONT-END
 def SINGLETRACK(request,Slug):
     SINGLETRACK = get_object_or_404(SingleTrack,Slug=Slug)
@@ -41,5 +42,3 @@ def Search(request):
         }
         return render(request,'Songs/Search.html',context)
 #TODO: API
-#TODO: COMMENTS
-#TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT

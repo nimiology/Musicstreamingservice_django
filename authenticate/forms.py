@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 USER = get_user_model()
-#TODO: FIX FUNCTIONS
 class SIGNUP(forms.Form):
     UserName = forms.CharField(
         widget=forms.TextInput())
@@ -10,7 +9,7 @@ class SIGNUP(forms.Form):
     Email = forms.CharField(
         widget=forms.EmailInput())
 
-    Password1 = forms.CharField(
+    Password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput())
 
@@ -34,7 +33,7 @@ class SIGNUP(forms.Form):
         return USERNAME
     def clean(self):
         DATA =self.cleaned_data
-        pass1 = DATA['Password1']
+        pass1 = DATA['Password']
         pass2 = DATA['Password2']
         if len(pass1)<8:
             raise forms.ValidationError("PASSWORD must be 8 letter at least!")
@@ -43,8 +42,8 @@ class SIGNUP(forms.Form):
         return DATA
 
 class LOGIN(forms.Form):
-    UserName = forms.CharField(
-        widget=forms.TextInput())
+    EMAIL = forms.CharField(
+        widget=forms.EmailInput())
     Password = forms.CharField(
         widget=forms.PasswordInput()
     )
