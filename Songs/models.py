@@ -14,9 +14,6 @@ class Album(models.Model):
         return self.Title
 
 
-# TODO: ADD LIMITATION FOR ALBUM
-# TODO: ADD MANY TO MANY FOR ARTIST
-
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
@@ -29,7 +26,6 @@ class SingleTrack(models.Model):
         return self.Title
 
 
-# TODO: album works but i don't like this way I have to change manytomany to another relationship in django
 def SINGLETRACK_presave(sender, instance, *args, **kwargs):
     if not instance.Slug:
         instance.Slug = unique_slug_generator(instance)
