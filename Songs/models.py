@@ -19,10 +19,9 @@ class Album(models.Model):
 
 class SingleTrack(models.Model):
     Title = models.CharField(max_length=1000)
-    Artist = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
     Album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="SingleTrack")
-    Features = models.ManyToManyField(USERSINFO, related_name="Features")
+    Features = models.ManyToManyField(USERSINFO, related_name="Features", blank=True)
     Producers = models.CharField(max_length=1000)
     SongFile = models.FileField(validators=[Validator], upload_to=upload_song_path, unique=True)
 
@@ -36,5 +35,5 @@ def SINGLETRACK_presave(sender, instance, *args, **kwargs):
         instance.Slug = unique_slug_generator(instance)
 
 
-pre_save.connect(SINGLETRACK_presave, SingleTrack)
-pre_save.connect(SINGLETRACK_presave, Album)
+pre_save.connect(SINGLETRACK_presave, sender=SingleTrack)
+pre_save.connect(SINGLETRACK_presave, sender=Album)

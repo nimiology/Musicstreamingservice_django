@@ -2,10 +2,7 @@ from django.contrib import admin
 from .models import SingleTrack,Album
 
 class SingleTrackAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'Slug': ['Title','Artist']}
+    prepopulated_fields = {'Slug': ['Title']}
 
-class AlbumAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'Slug': ['Title','Artist']}
-# Register your models here.
 admin.site.register(SingleTrack,SingleTrackAdmin)
-admin.site.register(Album,AlbumAdmin)
+admin.site.register(Album,SingleTrackAdmin)
