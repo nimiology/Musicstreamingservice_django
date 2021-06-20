@@ -6,6 +6,8 @@ class USERSINFO(models.Model):
     EMAIL = models.EmailField()
     PASSWORD = models.CharField(max_length=1000)
     #PROFILEPIC = models.ImageField(upload_to=get_filename_ext,default='',blank=True)
+
+
     def __str__(self):
         return self.USERNAME
 
