@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="login-container container-fluid wow">
+      <form class="login-form col-4 wow" action="#">
+        <img class="login-form-logo" src="img/logo.svg" alt="logo" />
+
+        <h2 class="login-form-heading">Login</h2>
+
+        <input class="login-form-input col-8" type="text" placeholder="Email" />
+
+        <input
+          class="login-form-input col-8"
+          type="text"
+          placeholder="Password"
+        />
+
+        <div class="login-form-checkbox-container col-8">
+          <input
+            type="checkbox"
+            name="forget"
+            id="dontForgetCheckbox"
+            checked
+          />
+          <label for="dontForgetCheckbox">dont forget me</label>
+        </div>
+
+        <button class="login-form-submit col-8" type="submit">Login</button>
+
+        <a class="login-form-forgot" href="#">Forgot Password ?</a>
+      </form>
+    </div>
+  </body>
+  <script src="js/wow.min.js"></script>
+  <script>
+    new WOW().init();
+  </script>
+</html>
