@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AdminpageConfig(AppConfig):
+class DashboardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'AdminPage'
+    name = 'Dashboard'

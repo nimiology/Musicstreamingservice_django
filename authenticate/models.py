@@ -5,6 +5,7 @@ class USERSINFO(models.Model):
     USERNAME = models.CharField(max_length=1000)
     EMAIL = models.EmailField()
     PASSWORD = models.CharField(max_length=1000)
+    Slug = models.SlugField(unique=True)
     #PROFILEPIC = models.ImageField(upload_to=get_filename_ext,default='',blank=True)
 
 

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Songs.apps.SongsConfig',
     'authenticate.apps.AuthenticateConfig',
-    'AdminPage.apps.AdminpageConfig'
+    'Dashboard.apps.DashboardConfig'
 ]
 
 MIDDLEWARE = [
