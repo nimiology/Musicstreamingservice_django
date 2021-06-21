@@ -11,12 +11,17 @@ def TrackUploader(request):
         class UPLOADERFORMS(forms.Form):
             Title = forms.CharField(widget=forms.TextInput())
             Album = forms.ModelChoiceField(queryset=Album.objects.filter(Artist__USERNAME__contains=request.user.username))
-            # bug
-            Features = forms.MultipleChoiceField(choices='')
+            ARTIST = USERSINFO.objects.all()
+            Features = forms.MultipleChoiceField(choices=((1,'a'),(2,'b')))
             Producer = forms.CharField(widget=forms.TextInput())
             SongFile = forms.FileField()
+        if request.method == 'POST':
+            FORMS =  UPLOADERFORMS(request.POST, request.FILES)
+            if FORMS.is_valid():
+                print(FORMS.cleaned_data)
+        else:
+            FORMS = UPLOADERFORMS
 
-        FORMS =  UPLOADERFORMS(request.POST or None)
         context = {
             'FORMS' : FORMS
         }
