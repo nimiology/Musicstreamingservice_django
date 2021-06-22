@@ -4,12 +4,13 @@ from .forms import SIGNUP, LOGIN
 from .models import USERSINFO
 
 def CREATEUSER(INFO):
-    USER = USERSINFO(USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'])
+    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'])
     USER.save()
 
 def SignUp(request):
     LOGINSTATUS = request.user.is_authenticated
     print(f'[LOGIN STATUS]{LOGINSTATUS}')
+
     if not LOGINSTATUS:
         FORMS = SIGNUP(request.POST or None)
 
@@ -20,7 +21,7 @@ def SignUp(request):
         if FORMS.is_valid():
             USER = get_user_model()
             DATA = FORMS.cleaned_data
-            qs = USER.objects.create_user(username=DATA['UserName'], email=DATA['Email'], password=DATA['Password'])
+            print(DATA)
             CREATEUSER(DATA)
             context['SIGNUP'] = 'USER CREATED'
             return redirect('/signin')

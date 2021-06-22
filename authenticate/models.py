@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 class USERSINFO(models.Model):
+    NAME = models.CharField(max_length=1000)
     USERNAME = models.CharField(max_length=1000)
     EMAIL = models.EmailField()
     PASSWORD = models.CharField(max_length=1000)
@@ -17,6 +18,6 @@ class USERSINFO(models.Model):
 
 def USERINFO_presave(sender, instance, *args, **kwargs):
     USER  = get_user_model()
-    USER.objects.create_user(username=instance.USERNAME, password=instance.PASSWORD)
+    USER.objects.create_user(username=instance.USERNAME, password=instance.PASSWORD,email=instance.EMAIL)
 
 pre_save.connect(USERINFO_presave,sender=USERSINFO)

@@ -3,6 +3,9 @@ from django.contrib.auth import get_user_model
 
 USER = get_user_model()
 class SIGNUP(forms.Form):
+    Name = forms.CharField(
+        widget=forms.TextInput())
+
     UserName = forms.CharField(
         widget=forms.TextInput())
 
