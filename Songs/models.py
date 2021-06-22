@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
-from .Ulitis import Validator, upload_image_path, upload_song_path
+from .Ulitis import Validator, upload_image_path, upload_song_path,slug_genrator
 from authenticate.models import USERSINFO
 
 
@@ -28,7 +28,14 @@ class SingleTrack(models.Model):
 
 def SINGLETRACK_presave(sender, instance, *args, **kwargs):
     if not instance.Slug:
-        instance.Slug = ''
+        status = True
+        while status:
+            SLUG = slug_genrator()
+            qs = SingleTrack.objects.filter(Slug=SLUG)
+            if not qs.exists():
+                SLUG = slug_genrator()
+                instance.Slug = SLUG
+                status = False
 
 
 pre_save.connect(SINGLETRACK_presave, sender=SingleTrack)
