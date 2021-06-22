@@ -7,8 +7,8 @@ from Songs.Ulitis import Validator
 
 def TrackUploader(request):
     LOGINSTATUS = request.user.is_authenticated
-    print(f'[USERNAME] {request.user.username}')
     if LOGINSTATUS:
+        print(f'[USERNAME] {request.user.username}')
         context = {}
 
         class UPLOADERFORMS(forms.Form):
@@ -21,7 +21,6 @@ def TrackUploader(request):
             for i in range(0, len(ARTIST)):
                 if ARTIST[i].USERNAME != request.user.username:
                     CHOICES.append((ARTIST[i], ARTIST[i]))
-
 
             Features = forms.MultipleChoiceField(choices=CHOICES, required=False)
             Producer = forms.CharField(widget=forms.TextInput())
@@ -36,11 +35,8 @@ def TrackUploader(request):
                                     SongFile=DATA['SongFile'])
                 Track.save()
                 FEATURES = USERSINFO.objects.filter(USERNAME__in=DATA['Features'])
-                print(FEATURES)
                 Track.Features.set(FEATURES)
                 context['SEND'] = 'Succesful!'
-
-
         else:
             FORMS = UPLOADERFORMS
 
