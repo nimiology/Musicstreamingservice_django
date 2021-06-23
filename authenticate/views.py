@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login
 from .forms import SIGNUP, LOGIN
 from .models import USERSINFO
@@ -86,20 +86,12 @@ def ForgetPassword(request,SLUG):
             DATA = FORMS.cleaned_data
             QS.PASSWORD = DATA['PASSWORD1']
 
-            status = True
-            while status:
-                SLUG = slug_genrator()
-                qs = USERSINFO.objects.filter(PasswordForget=SLUG)
-                if not qs.exists():
-                    SLUG = slug_genrator()
-                    QS.PasswordForget = SLUG
-                    status = False
-
             QS.save()
-
+            #todo: USER DOESN'T WORKS
             u = User.objects.get(username=QS.USERNAME)
             u.password = DATA['PASSWORD1']
             u.save()
             context['SEND'] = 'PASSWORD CHANGED!'
+            print(User.objects.get(username=QS.USERNAME).password)
         context['FORMS'] = FORMS
         return render(request, 'auth/forgetpassword.html',context)
