@@ -71,3 +71,5 @@ def AlbumAdder(request):
         return render(request,'Dashboard/AlbumAdder.html',context)
     else:
         return redirect('/signin')
+
+

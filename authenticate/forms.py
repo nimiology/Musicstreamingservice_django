@@ -41,7 +41,7 @@ class SIGNUP(forms.Form):
         if len(pass1)<8:
             raise forms.ValidationError("PASSWORD must be 8 letter at least!")
         elif pass1 != pass2:
-            raise forms.ValidationError("PASSWORD doesn't match1")
+            raise forms.ValidationError("PASSWORD doesn't match!")
         return DATA
 
 class LOGIN(forms.Form):

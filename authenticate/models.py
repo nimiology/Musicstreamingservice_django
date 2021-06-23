@@ -1,7 +1,7 @@
 from django.db import models
 from .ulitis import get_filename_ext
+from Songs.Ulitis import slug_genrator
 from django.db.models.signals import pre_save
-from django.contrib.auth import get_user_model
 
 # Create your models here.
 class USERSINFO(models.Model):
@@ -10,6 +10,7 @@ class USERSINFO(models.Model):
     EMAIL = models.EmailField()
     PASSWORD = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
+    PasswordForget = models.SlugField(unique=True)
     #PROFILEPIC = models.ImageField(upload_to=get_filename_ext,default='',blank=True)
 
 
@@ -17,7 +18,13 @@ class USERSINFO(models.Model):
         return self.USERNAME
 
 def USERINFO_presave(sender, instance, *args, **kwargs):
-    USER  = get_user_model()
-    USER.objects.create_user(username=instance.USERNAME, password=instance.PASSWORD,email=instance.EMAIL)
+    status = True
+    while status:
+        SLUG = slug_genrator()
+        qs = USERSINFO.objects.filter(PasswordForget=SLUG)
+        if not qs.exists():
+            SLUG = slug_genrator()
+            instance.PasswordForget = SLUG
+            status = False
 
 pre_save.connect(USERINFO_presave,sender=USERSINFO)

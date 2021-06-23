@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import get_user_model, authenticate, login
 from .forms import SIGNUP, LOGIN
 from .models import USERSINFO
+from django import forms
+from Songs.Ulitis import slug_genrator
+from django.contrib.auth.models import User
 
 def CREATEUSER(INFO):
     USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'])
@@ -61,3 +64,42 @@ def LogIn(request):
         return redirect('/Dashboard')
 
     return render(request, 'auth/LOGIN.html', context)
+
+def ForgetPassword(request,SLUG):
+    QS = USERSINFO.objects.filter(PasswordForget__exact=SLUG)
+    context = {}
+    if QS.exists():
+        QS = QS[0]
+        print(QS)
+
+        class FORGET(forms.Form):
+            PASSWORD1 = forms.CharField(widget=forms.PasswordInput)
+            PASSWORD2 = forms.CharField(widget=forms.PasswordInput)
+            def clean(self):
+                DATA = self.cleaned_data
+                if DATA['PASSWORD1'] != DATA['PASSWORD2']:
+                    raise forms.ValidationError("PASSWORD doesn't match1")
+                return DATA
+
+        FORMS = FORGET(request.POST or None)
+        if FORMS.is_valid():
+            DATA = FORMS.cleaned_data
+            QS.PASSWORD = DATA['PASSWORD1']
+
+            status = True
+            while status:
+                SLUG = slug_genrator()
+                qs = USERSINFO.objects.filter(PasswordForget=SLUG)
+                if not qs.exists():
+                    SLUG = slug_genrator()
+                    QS.PasswordForget = SLUG
+                    status = False
+
+            QS.save()
+
+            u = User.objects.get(username=QS.USERNAME)
+            u.password = DATA['PASSWORD1']
+            u.save()
+            context['SEND'] = 'PASSWORD CHANGED!'
+        context['FORMS'] = FORMS
+        return render(request, 'auth/forgetpassword.html',context)
