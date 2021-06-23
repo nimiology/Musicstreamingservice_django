@@ -26,7 +26,7 @@ class SingleTrack(models.Model):
         return self.Title
 
 
-def SINGLETRACK_presave(sender, instance, *args, **kwargs):
+def SLUG_presave(sender, instance, *args, **kwargs):
     if not instance.Slug:
         status = True
         while status:
@@ -38,5 +38,5 @@ def SINGLETRACK_presave(sender, instance, *args, **kwargs):
                 status = False
 
 
-pre_save.connect(SINGLETRACK_presave, sender=SingleTrack)
-pre_save.connect(SINGLETRACK_presave, sender=Album)
+pre_save.connect(SLUG_presave, sender=SingleTrack)
+pre_save.connect(SLUG_presave, sender=Album)

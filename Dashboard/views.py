@@ -45,8 +45,29 @@ def TrackUploader(request):
     else:
         return redirect('/signin')
 
-# class ALBUMCREATOR(forms.Form):
-#     Title = forms.CharField(widget=forms.TextInput())
-#     #User
-#     Album = forms.ModelChoiceField()
-#     Cover = forms.ImageField()
+
+def AlbumAdder(request):
+    LOGINSTATUS = request.user.is_authenticated
+    if LOGINSTATUS:
+        print(f'[USERNAME] {request.user.username}')
+        context = {}
+        class ALBUMCREATOR(forms.Form):
+            Title = forms.CharField(widget=forms.TextInput())
+            Cover = forms.ImageField()
+
+        if request.method == 'POST':
+            FORMS = ALBUMCREATOR(request.POST, request.FILES)
+            if FORMS.is_valid():
+                DATA = FORMS.cleaned_data
+                print(DATA)
+                MODELALBUM = Album(Title=DATA['Title'],
+                                   Artist=USERSINFO.objects.filter(USERNAME__exact=request.user.username)[0],
+                                   Cover=DATA['Cover'])
+                MODELALBUM.save()
+                context['SEND'] = 'Succesful!'
+        else:
+            FORMS = ALBUMCREATOR
+        context['FORMS'] = FORMS
+        return render(request,'Dashboard/AlbumAdder.html',context)
+    else:
+        return redirect('/signin')
