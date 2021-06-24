@@ -1,19 +1,19 @@
 from django.db import models
-from .ulitis import get_filename_ext
+from .ulitis import upload_image_path
 from Songs.Ulitis import slug_genrator
 from django.db.models.signals import pre_save
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class USERSINFO(models.Model):
     NAME = models.CharField(max_length=1000)
     USERNAME = models.CharField(max_length=1000,unique=True)
     EMAIL = models.EmailField(unique=True)
     PASSWORD = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True)
-    PasswordForget = models.SlugField(unique=True)
-    #PROFILEPIC = models.ImageField(upload_to=get_filename_ext,default='',blank=True)
+    PasswordForget = models.SlugField(unique=True,default=slug_genrator)
+    PROFILEPIC = models.ImageField(upload_to=upload_image_path,default='profiles/DEFAULT.png')
     CREATE = models.BooleanField(default=False)
 
 
@@ -22,11 +22,13 @@ class USERSINFO(models.Model):
 
 def USERINFO_presave(sender, instance, *args, **kwargs):
     if instance.CREATE:
-        #create user
+        #create
         USER = get_user_model()
         USER.objects.create_user(username=instance.USERNAME, password=instance.PASSWORD,email=instance.EMAIL)
+        instance.CREATE = False
     else:
-        u = User.objects.get(username=instance.USERNAME)
+        u = User.objects.get(email=instance.EMAIL)
+        u.username = instance.USERNAME
         u.set_password(instance.PASSWORD)
         u.save()
     #forget password

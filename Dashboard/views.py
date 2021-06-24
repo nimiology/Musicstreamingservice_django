@@ -72,4 +72,16 @@ def AlbumAdder(request):
     else:
         return redirect('/signin')
 
+def User(request):
+    LOGINSTATUS = request.user.is_authenticated
+    if LOGINSTATUS:
+        print(f'[USERNAME] {request.user.username}')
+        context = {}
+        class USER(forms.Form):
+            NAME = forms.CharField(widget=forms.TextInput())
+            USERNAME = forms.CharField(widget=forms.TextInput())
+            PASSWORD = forms.CharField(widget=forms.PasswordInput())
+            PROFILEPIC = forms.ImageField()
+    else:
+        return redirect('/signin')
 

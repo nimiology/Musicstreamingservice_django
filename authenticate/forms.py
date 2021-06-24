@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 USER = get_user_model()
+
 class SIGNUP(forms.Form):
     Name = forms.CharField(
         widget=forms.TextInput())
@@ -54,6 +55,20 @@ class LOGIN(forms.Form):
     def clean(self):
         DATA = self.cleaned_data
         PASSWORD = DATA['Password']
-        if len(PASSWORD)<8:
+        if len(PASSWORD) < 8:
             raise forms.ValidationError("PASSWORD must be 8 letter at least!")
+
+        return DATA
+
+class FORGET(forms.Form):
+    PASSWORD1 = forms.CharField(widget=forms.PasswordInput)
+    PASSWORD2 = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        DATA = self.cleaned_data
+        if DATA['PASSWORD1'] != DATA['PASSWORD2']:
+            raise forms.ValidationError("PASSWORD doesn't match1")
+        if len(DATA['PASSWORD1']) < 8:
+            raise forms.ValidationError("PASSWORD must be 8 letter at least!")
+
         return DATA

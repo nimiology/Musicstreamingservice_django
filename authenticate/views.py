@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.contrib.auth import get_user_model, authenticate, login
-from .forms import SIGNUP, LOGIN
+from django.contrib.auth import authenticate, login
+from .forms import SIGNUP, LOGIN,FORGET
 from .models import USERSINFO
-from django import forms
 
 
 def CREATEUSER(INFO):
@@ -22,7 +21,6 @@ def SignUp(request):
         }
 
         if FORMS.is_valid():
-            USER = get_user_model()
             DATA = FORMS.cleaned_data
             print(DATA)
             CREATEUSER(DATA)
@@ -33,8 +31,7 @@ def SignUp(request):
 
     return render(request, 'auth/SignUp.html', context)
 
-#TODO: EVERY USER CAN SEND HIS MUSIC AND ADD IT
-#TODO: CHANGE PASSWORD AND USER NAME FEATURE
+
 #TODO: ADD PROFILE PIC WHEN ADMIN PANNEL IS READY
 
 def LogIn(request):
@@ -50,15 +47,14 @@ def LogIn(request):
             DATA = FORMS.cleaned_data
             print(DATA)
             username = USERSINFO.objects.filter(EMAIL__exact=DATA['EMAIL'])
-            print(username)
-            try:
+            if username.exists():
                 username = username.values()[0]['USERNAME']
                 USER = authenticate(request, username=username, password=DATA['Password'])
                 if USER is not None:
                     login(request, USER)
                     context['LOGIN'] = 'YOU ARE IN!'
                     return redirect('/Dashboard')
-            except:
+            else:
                 print("[LOGIN] User doesn't FOUND!")
     else:
         return redirect('/Dashboard')
@@ -70,27 +66,13 @@ def ForgetPassword(request,SLUG):
     context = {}
     if QS.exists():
         QS = QS[0]
-        print(QS)
-
-        class FORGET(forms.Form):
-            PASSWORD1 = forms.CharField(widget=forms.PasswordInput)
-            PASSWORD2 = forms.CharField(widget=forms.PasswordInput)
-            def clean(self):
-                DATA = self.cleaned_data
-                if DATA['PASSWORD1'] != DATA['PASSWORD2']:
-                    raise forms.ValidationError("PASSWORD doesn't match1")
-                return DATA
-
         FORMS = FORGET(request.POST or None)
         if FORMS.is_valid():
             DATA = FORMS.cleaned_data
             QS.PASSWORD = DATA['PASSWORD1']
-
             QS.save()
-            #todo: USER DOESN'T WORKS
 
             context['SEND'] = 'PASSWORD CHANGED!'
         context['FORMS'] = FORMS
         return render(request, 'auth/forgetpassword.html',context)
-
     raise Http404('Not Found !')
