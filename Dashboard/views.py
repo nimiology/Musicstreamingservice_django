@@ -72,16 +72,37 @@ def AlbumAdder(request):
     else:
         return redirect('/signin')
 
-def User(request):
+def UserInfo(request):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
         print(f'[USERNAME] {request.user.username}')
+        user = USERSINFO.objects.get(USERNAME=request.user.username)
         context = {}
-        class USER(forms.Form):
-            NAME = forms.CharField(widget=forms.TextInput())
-            USERNAME = forms.CharField(widget=forms.TextInput())
-            PASSWORD = forms.CharField(widget=forms.PasswordInput())
-            PROFILEPIC = forms.ImageField()
+        class FormUser(forms.Form):
+            NAME = forms.CharField(widget=forms.TextInput(attrs={'value': user.NAME}), required=False)
+            USERNAME = forms.CharField(widget=forms.TextInput(attrs={'value': user.USERNAME}), required=False)
+            PASSWORD = forms.CharField(widget=forms.PasswordInput(attrs={'value': user.PASSWORD}), required=False)
+            PROFILEPIC = forms.ImageField(required=False)
+
+        if request.method == "POST":
+            DATA = FormUser(request.POST, request.FILES)
+            context['FORMS'] = DATA
+            if DATA.is_valid():
+                DATA = DATA.cleaned_data
+                print(DATA)
+                user.NAME = DATA['NAME']
+                user.USERNAME = DATA['USERNAME']
+                user.PASSWORD = DATA['PASSWORD']
+                if DATA['PROFILEPIC'] != None:
+                    user.PROFILEPIC = DATA['PROFILEPIC']
+
+                user.save()
+                context['SEND'] = 'Data Changed'
+
+        else:
+            context['FORMS'] = FormUser
+
+        return render(request,'Dashboard/UserInfo.html',context)
     else:
         return redirect('/signin')
 
