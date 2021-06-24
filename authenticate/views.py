@@ -49,7 +49,7 @@ def LogIn(request):
         if FORMS.is_valid():
             DATA = FORMS.cleaned_data
             print(DATA)
-            username = USERSINFO.objects.filter(EMAIL=DATA['EMAIL'])
+            username = USERSINFO.objects.filter(EMAIL__exact=DATA['EMAIL'])
             print(username)
             try:
                 username = username.values()[0]['USERNAME']
@@ -88,10 +88,7 @@ def ForgetPassword(request,SLUG):
 
             QS.save()
             #todo: USER DOESN'T WORKS
-            u = User.objects.get(username=QS.USERNAME)
-            u.password = DATA['PASSWORD1']
-            u.save()
+
             context['SEND'] = 'PASSWORD CHANGED!'
-            print(User.objects.get(username=QS.USERNAME).password)
         context['FORMS'] = FORMS
         return render(request, 'auth/forgetpassword.html',context)
