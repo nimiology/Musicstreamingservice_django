@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from django.contrib.auth import get_user_model, authenticate, login
 from .forms import SIGNUP, LOGIN
 from .models import USERSINFO
 from django import forms
-from Songs.Ulitis import slug_genrator
-from django.contrib.auth.models import User
+
 
 def CREATEUSER(INFO):
     USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'],CREATE=True)
@@ -92,3 +92,5 @@ def ForgetPassword(request,SLUG):
             context['SEND'] = 'PASSWORD CHANGED!'
         context['FORMS'] = FORMS
         return render(request, 'auth/forgetpassword.html',context)
+
+    raise Http404('Not Found !')
