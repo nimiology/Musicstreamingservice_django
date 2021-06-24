@@ -7,7 +7,7 @@ from Songs.Ulitis import slug_genrator
 from django.contrib.auth.models import User
 
 def CREATEUSER(INFO):
-    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'])
+    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'],CREATE=True)
     USER.save()
 
 def SignUp(request):
