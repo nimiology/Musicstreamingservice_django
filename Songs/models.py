@@ -19,7 +19,6 @@ class SingleTrack(models.Model):
     Slug = models.SlugField(blank=True, unique=True)
     Album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="SingleTrack")
     Features = models.ManyToManyField(USERSINFO, related_name="Features", blank=True)
-    Producers = models.CharField(max_length=1000)
     SongFile = models.FileField(validators=[Validator], upload_to=upload_song_path, unique=True)
 
     def __str__(self):
