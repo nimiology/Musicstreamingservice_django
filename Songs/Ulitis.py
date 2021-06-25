@@ -31,10 +31,15 @@ def get_filename_ext(filepath):
     name, ext = os.path.splitext(base_name)
     return name, ext
 
-def upload_image_path(instance, filename):
+def upload_album_cover_path(instance, filename):
     name, ext = get_filename_ext(filename)
     final_name = f"{instance.Slug}{ext}"
     return f"singleTrack/cover/{final_name}"
+
+def upload_playlist_cover_path(instance, filename):
+    name, ext = get_filename_ext(filename)
+    final_name = f"{instance.Slug}{ext}"
+    return f"Playlist/cover/{final_name}"
 
 def upload_song_path(instance, filename):
     name, ext = get_filename_ext(filename)

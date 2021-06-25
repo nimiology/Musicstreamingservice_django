@@ -37,7 +37,7 @@ def USERINFO_presave(sender, instance, *args, **kwargs):
         SLUG = slug_genrator()
         qs = USERSINFO.objects.filter(PasswordForget=SLUG)
         if not qs.exists():
-            SLUG = slug_genrator()
+            SLUG = slug_genrator() 
             instance.PasswordForget = SLUG
             status = False
     #slug
