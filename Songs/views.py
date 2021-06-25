@@ -4,7 +4,7 @@ from .forms import SEARCH
 
 
 
-#TODO: FRONT-END
+
 def SINGLETRACK(request,Slug):
     SINGLETRACK = get_object_or_404(SingleTrack,Slug=Slug)
     context = {
@@ -41,4 +41,3 @@ def Search(request):
             'FORMS':SEARCH
         }
         return render(request,'Songs/Search.html',context)
-#TODO: API

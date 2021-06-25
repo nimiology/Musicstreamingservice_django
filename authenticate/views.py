@@ -32,7 +32,6 @@ def SignUp(request):
     return render(request, 'auth/SignUp.html', context)
 
 
-#TODO: ADD PROFILE PIC WHEN ADMIN PANNEL IS READY
 
 def LogIn(request):
     LOGINSTATUS = request.user.is_authenticated
