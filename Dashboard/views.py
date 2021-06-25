@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django import forms
 from Songs.models import Album, SingleTrack
 from authenticate.models import USERSINFO
 from Songs.Ulitis import Validator
+
 
 
 def TrackUploader(request):
@@ -44,7 +45,6 @@ def TrackUploader(request):
         return render(request, 'Dashboard/Trackuploader.html', context)
     else:
         return redirect('/signin')
-
 
 def AlbumAdder(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -105,4 +105,17 @@ def UserInfo(request):
         return render(request,'Dashboard/UserInfo.html',context)
     else:
         return redirect('/signin')
+
+def ChangeSongDetail(request, Slug):pass
+
+def ChangeAlbumDetail(request, Slug):
+    LOGINSTATUS = request.user.is_authenticated
+    if LOGINSTATUS:
+        username = request.user.username
+        ALBUMS = get_object_or_404(Album,Slug=Slug)
+        context = {}
+        class FORMS(forms.Form):
+            Title = forms.CharField(widget=forms.TextInput(attrs={'value':ALBUMS.Title}))
+
+        return render(request,'Dashboard/Album.html',context)
 

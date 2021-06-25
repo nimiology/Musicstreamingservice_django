@@ -30,7 +30,7 @@ class SingleTrack(models.Model):
 class Playlist(models.Model):
     Title = models.CharField(max_length=1000)
     Slug = models.SlugField(unique=True, blank=True, max_length=102)
-    Owner = models.ForeignKey(USERSINFO, on_delete=models.CASCADE, related_name='Playlist')
+    Owner = models.ForeignKey(USERSINFO, on_delete=models.CASCADE, related_name='Owner')
     Tracks = models.ManyToManyField(SingleTrack, related_name='Playlist', blank=True)
     Cover = models.ImageField(upload_to=upload_playlist_cover_path, default='Playlist/cover/DEFAULT.png', blank=True)
     CreatedTime = models.DateTimeField(auto_now_add=True)

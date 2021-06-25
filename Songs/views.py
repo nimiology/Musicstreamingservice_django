@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .models import SingleTrack,Album
+from .models import SingleTrack,Album,Playlist
 from .forms import SEARCH
 
 
@@ -22,7 +22,7 @@ def ALBUM(request,Slug):
 
     return render(request, 'Songs/Album.html', context)
 
-
+#todo: playlist
 #SEARCH
 def Search(request):
     if request.method == 'POST':
