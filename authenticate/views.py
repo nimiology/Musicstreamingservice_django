@@ -6,7 +6,7 @@ from .models import USERSINFO
 
 
 def CREATEUSER(INFO):
-    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'],CREATE=True)
+    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'],CHANGE=False)
     USER.save()
 
 def SignUp(request):
