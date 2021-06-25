@@ -28,9 +28,9 @@ def TrackUploader(request):
             SongFile = forms.FileField(validators=[Validator])
 
         if request.method == 'POST':
-            FORMS = UPLOADERFORMS(request.POST, request.FILES)
-            if FORMS.is_valid():
-                DATA = FORMS.cleaned_data
+            UPLOADERDORMS = UPLOADERFORMS(request.POST, request.FILES)
+            if UPLOADERDORMS.is_valid():
+                DATA = UPLOADERDORMS.cleaned_data
                 print(DATA)
                 Track = SingleTrack(Title=DATA['Title'], Album=DATA['Album'], Producers=DATA['Producer'],
                                     SongFile=DATA['SongFile'])
@@ -38,10 +38,8 @@ def TrackUploader(request):
                 FEATURES = USERSINFO.objects.filter(USERNAME__in=DATA['Features'])
                 Track.Features.set(FEATURES)
                 context['SEND'] = 'Succesful!'
-        else:
-            FORMS = UPLOADERFORMS
 
-        context['FORMS'] = FORMS
+        context['FORMS'] = UPLOADERDORMS
         return render(request, 'Dashboard/Trackuploader.html', context)
     else:
         return redirect('/signin')
@@ -56,18 +54,17 @@ def AlbumAdder(request):
             Cover = forms.ImageField()
 
         if request.method == 'POST':
-            FORMS = ALBUMCREATOR(request.POST, request.FILES)
-            if FORMS.is_valid():
-                DATA = FORMS.cleaned_data
+            ALBUMCREATOR = ALBUMCREATOR(request.POST, request.FILES)
+            if ALBUMCREATOR.is_valid():
+                DATA = ALBUMCREATOR.cleaned_data
                 print(DATA)
                 MODELALBUM = Album(Title=DATA['Title'],
                                    Artist=USERSINFO.objects.filter(USERNAME__exact=request.user.username)[0],
                                    Cover=DATA['Cover'])
                 MODELALBUM.save()
                 context['SEND'] = 'Succesful!'
-        else:
-            FORMS = ALBUMCREATOR
-        context['FORMS'] = FORMS
+
+        context['FORMS'] = ALBUMCREATOR
         return render(request,'Dashboard/AlbumAdder.html',context)
     else:
         return redirect('/signin')
@@ -111,11 +108,26 @@ def ChangeSongDetail(request, Slug):pass
 def ChangeAlbumDetail(request, Slug):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
-        username = request.user.username
         ALBUMS = get_object_or_404(Album,Slug=Slug)
-        context = {}
+        context = {
+            'Album':ALBUMS
+        }
+
         class FORMS(forms.Form):
             Title = forms.CharField(widget=forms.TextInput(attrs={'value':ALBUMS.Title}))
+            Cover = forms.ImageField(required=False)
+        if request.method =='POST':
+            FORMS = FORMS(request.POST,request.FILES)
+            if FORMS.is_valid():
+                DATA = FORMS.cleaned_data
+                ALBUMS.Title =  DATA['Title']
+                if DATA['Cover'] != None:
+                    ALBUMS.Cover = DATA['Cover']
+
+                ALBUMS.save()
+                context['SEND'] = 'Succesful!'
+        context['FORMS'] = FORMS
 
         return render(request,'Dashboard/Album.html',context)
+    return redirect('/signin')
 
