@@ -24,7 +24,6 @@ def TrackUploader(request):
                     CHOICES.append((ARTIST[i], ARTIST[i]))
 
             Features = forms.MultipleChoiceField(choices=CHOICES, required=False)
-            Producer = forms.CharField(widget=forms.TextInput())
             SongFile = forms.FileField(validators=[Validator])
 
         if request.method == 'POST':
@@ -32,7 +31,7 @@ def TrackUploader(request):
             if UPLOADERFORMS.is_valid():
                 DATA = UPLOADERFORMS.cleaned_data
                 print(DATA)
-                Track = SingleTrack(Title=DATA['Title'], Album=DATA['Album'], Producers=DATA['Producer'],
+                Track = SingleTrack(Title=DATA['Title'], Album=DATA['Album'],
                                     SongFile=DATA['SongFile'])
                 Track.save()
                 FEATURES = USERSINFO.objects.filter(USERNAME__in=DATA['Features'])
@@ -41,8 +40,8 @@ def TrackUploader(request):
 
         context['FORMS'] = UPLOADERFORMS
         return render(request, 'Dashboard/Trackuploader.html', context)
-    else:
-        return redirect('/signin')
+
+    return redirect('/signin')
 
 def AlbumAdder(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -103,7 +102,52 @@ def UserInfo(request):
     else:
         return redirect('/signin')
 
-def ChangeSongDetail(request, Slug):pass
+def ChangeSongDetail(request, Slug):
+    LOGINSTATUS = request.user.is_authenticated
+    if LOGINSTATUS:
+        TRACK =  get_object_or_404(SingleTrack,Slug=Slug)
+        context = {
+            'Track' : TRACK
+        }
+
+        class FORMS(forms.Form):
+            Title = forms.CharField(widget=forms.TextInput(attrs={'value':TRACK.Title}))
+            Album = forms.ModelChoiceField(queryset=Album.objects.filter(Artist__USERNAME__exact=request.user.username),
+                                           initial=TRACK.Album)
+
+            ARTIST = USERSINFO.objects.all()
+            CHOICES = []
+            for i in range(0, len(ARTIST)):
+                if ARTIST[i].USERNAME != request.user.username:
+                    CHOICES.append((ARTIST[i], ARTIST[i]))
+
+            FEATURESTRACK = []
+            for artist in TRACK.Features.all():
+                FEATURESTRACK.append(str(artist))
+            INITIAL = []
+            for CHOICE in CHOICES:
+                if str(CHOICE[0]) in FEATURESTRACK:
+                    INITIAL.append(str(CHOICE[0]))
+
+            Feature = forms.MultipleChoiceField(choices=CHOICES,initial=INITIAL)
+            SongFile = forms.FileField(validators=[Validator])
+
+        if request.method == 'POST':
+            FORMS = FORMS(request.POST,request.FILES)
+            if FORMS.is_valid():
+                DATA = FORMS.cleaned_data
+                TRACK.Title = DATA['Title']
+                TRACK.Album = DATA['Album']
+                TRACK.SongFile = DATA['SongFile']
+                TRACK.save()
+                FETURES = USERSINFO.objects.filter(USERNAME__in=DATA['Features'])
+                TRACK.Features.set(FETURES)
+
+        context['FORMS'] = FORMS
+
+        return render(request,'Dashboard/Trackuploader.html',context)
+
+    return redirect('/signin')
 
 def ChangeAlbumDetail(request, Slug):
     LOGINSTATUS = request.user.is_authenticated

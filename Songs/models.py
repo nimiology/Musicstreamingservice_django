@@ -6,7 +6,7 @@ from authenticate.models import USERSINFO
 
 class Album(models.Model):
     Title = models.CharField(max_length=1000)
-    Slug = models.SlugField(blank=True, unique=True, max_length=102)
+    Slug = models.SlugField(unique=True, max_length=102)
     Artist = models.ForeignKey(USERSINFO, on_delete=models.CASCADE, related_name="Album")
     Cover = models.ImageField(upload_to=upload_album_cover_path)
     CreateDTime = models.DateTimeField(auto_now_add=True)
@@ -41,7 +41,7 @@ class Playlist(models.Model):
 
 #todo: Change  presaves
 def SingleTrack_SLUG_presave(sender, instance, *args, **kwargs):
-    if instance.Slug == None:
+    if instance.Slug == '':
         status = True
         while status:
             SLUG = slug_genrator()
@@ -52,7 +52,7 @@ def SingleTrack_SLUG_presave(sender, instance, *args, **kwargs):
 
 
 def Album_SLUG_presave(sender, instance, *args, **kwargs):
-    if instance.Slug == None:
+    if instance.Slug == '':
         status = True
         while status:
             SLUG = slug_genrator()
@@ -63,7 +63,7 @@ def Album_SLUG_presave(sender, instance, *args, **kwargs):
 
 
 def Playlist_SLUG_presave(sender, instance, *args, **kwargs):
-    if instance.Slug == None:
+    if instance.Slug == '':
         status = True
         while status:
             SLUG = slug_genrator()
