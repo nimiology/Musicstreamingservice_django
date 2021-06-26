@@ -129,7 +129,7 @@ def ChangeSongDetail(request, Slug):
                 if str(CHOICE[0]) in FEATURESTRACK:
                     INITIAL.append(str(CHOICE[0]))
 
-            Feature = forms.MultipleChoiceField(choices=CHOICES,initial=INITIAL)
+            Features = forms.MultipleChoiceField(choices=CHOICES,initial=INITIAL,required=False)
             SongFile = forms.FileField(validators=[Validator])
 
         if request.method == 'POST':
@@ -138,7 +138,8 @@ def ChangeSongDetail(request, Slug):
                 DATA = FORMS.cleaned_data
                 TRACK.Title = DATA['Title']
                 TRACK.Album = DATA['Album']
-                TRACK.SongFile = DATA['SongFile']
+                if DATA['SongFile'] != False:
+                    TRACK.SongFile = DATA['SongFile']
                 TRACK.save()
                 FETURES = USERSINFO.objects.filter(USERNAME__in=DATA['Features'])
                 TRACK.Features.set(FETURES)
