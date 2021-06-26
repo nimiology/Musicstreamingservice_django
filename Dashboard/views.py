@@ -28,9 +28,9 @@ def TrackUploader(request):
             SongFile = forms.FileField(validators=[Validator])
 
         if request.method == 'POST':
-            UPLOADERDORMS = UPLOADERFORMS(request.POST, request.FILES)
-            if UPLOADERDORMS.is_valid():
-                DATA = UPLOADERDORMS.cleaned_data
+            UPLOADERFORMS = UPLOADERFORMS(request.POST, request.FILES)
+            if UPLOADERFORMS.is_valid():
+                DATA = UPLOADERFORMS.cleaned_data
                 print(DATA)
                 Track = SingleTrack(Title=DATA['Title'], Album=DATA['Album'], Producers=DATA['Producer'],
                                     SongFile=DATA['SongFile'])
@@ -39,7 +39,7 @@ def TrackUploader(request):
                 Track.Features.set(FEATURES)
                 context['SEND'] = 'Succesful!'
 
-        context['FORMS'] = UPLOADERDORMS
+        context['FORMS'] = UPLOADERFORMS
         return render(request, 'Dashboard/Trackuploader.html', context)
     else:
         return redirect('/signin')
