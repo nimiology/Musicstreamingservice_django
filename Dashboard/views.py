@@ -184,3 +184,12 @@ def ALBUMS(request):
         }
         return render(request,'Dashboard/ALBUMS.html',context)
     return redirect('/signin')
+
+def Songs(request):
+    if request.user.is_authenticated:
+        LISTSONGS = SingleTrack.objects.filter(Album__Artist__USERNAME__exact=request.user.username)
+        context = {
+            'SONGS':LISTSONGS
+        }
+        return render(request,'Dashboard/Songs.html',context)
+    return redirect('/signin')
