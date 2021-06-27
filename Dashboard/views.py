@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django import forms
 from Songs.models import Album, SingleTrack
-from authenticate.models import USERSINFO
+from Users.models import USERSINFO
 from Songs.Ulitis import Validator
 
 

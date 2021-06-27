@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from .Ulitis import Validator, upload_album_cover_path, upload_song_path, upload_playlist_cover_path, slug_genrator
-from authenticate.models import USERSINFO
+from Users.models import USERSINFO
 
 
 class Album(models.Model):

@@ -1,7 +1,7 @@
 from django.urls import path
-from authenticate.views import SignUp,LogIn,ForgetPassword,LOGOUT
+from Users.views import SignUp,LogIn,ForgetPassword,LOGOUT
 
-app_name='authenticate'
+app_name='Users'
 urlpatterns = [
     path('signup',SignUp),
     path('signin',LogIn),

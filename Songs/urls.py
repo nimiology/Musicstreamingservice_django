@@ -5,5 +5,5 @@ app_name = 'Songs'
 urlpatterns = [
     path('search', Search, name='search'),
     path('Album/<Slug>', ALBUM, name='Album'),
-    path('singletrack/<Slug>', SINGLETRACK, name='SingleTrack')
+    path('singletrack/<Slug>', SINGLETRACK, name='SingleTrack'),
 ]
