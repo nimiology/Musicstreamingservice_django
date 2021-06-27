@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django import forms
 from django.urls import reverse
-from Songs.models import Album, SingleTrack
+from Songs.models import Album, SingleTrack,Playlist
 from Users.models import USERSINFO
 from Songs.Ulitis import Validator
 
@@ -31,7 +31,6 @@ def TrackUploader(request):
             UPLOADERFORMS = UPLOADERFORMS(request.POST, request.FILES)
             if UPLOADERFORMS.is_valid():
                 DATA = UPLOADERFORMS.cleaned_data
-                print(DATA)
                 Track = SingleTrack(Title=DATA['Title'], Album=DATA['Album'],
                                     SongFile=DATA['SongFile'])
                 Track.save()
@@ -68,6 +67,26 @@ def AlbumAdder(request):
         return render(request,'Dashboard/AlbumAdder.html',context)
     else:
         return redirect(reverse('Users:SignIn'))
+
+def PlaylistAdder(request):
+    if request.user.is_authenticated:
+        context = {}
+        class FORMS(forms.Form):
+            Title = forms.CharField(widget=forms.TextInput())
+            Cover = forms.ImageField()
+
+        if request.method == 'POST':
+            FORMS = FORMS(request.POST, request.FILES)
+            if FORMS.is_valid():
+                DATA = FORMS.cleaned_data
+                PLAYLIST = Playlist(Title=DATA['Title'],
+                                    Owner=USERSINFO.objects.get(USERNAME=request.user.username),Cover=DATA['Cover'])
+                PLAYLIST.save()
+                context['SEND'] = 'Created!'
+        context['FORMS'] = FORMS
+        return render(request,'Dashboard/PlaylistAdder.html',context)
+
+    return redirect(reverse('Users:SignIn'))
 
 def UserInfo(request):
     LOGINSTATUS = request.user.is_authenticated
