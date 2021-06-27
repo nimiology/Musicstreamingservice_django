@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from .forms import SIGNUP, LOGIN,FORGET
 from .models import USERSINFO
 
@@ -30,8 +30,6 @@ def SignUp(request):
         return redirect('/Dashboard')
 
     return render(request, 'auth/SignUp.html', context)
-
-
 
 def LogIn(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -75,3 +73,9 @@ def ForgetPassword(request,SLUG):
         context['FORMS'] = FORMS
         return render(request, 'auth/forgetpassword.html',context)
     raise Http404('Not Found !')
+
+def LOGOUT(request):
+    if request.user.is_authenticated:
+        logout(request)
+
+    return redirect('/signin')
