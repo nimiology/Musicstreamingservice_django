@@ -39,7 +39,6 @@ class Playlist(models.Model):
     def __str__(self):
         return self.Title
 
-#todo: Change  presaves
 def SingleTrack_SLUG_presave(sender, instance, *args, **kwargs):
     if instance.Slug == '':
         status = True

@@ -78,4 +78,4 @@ def LOGOUT(request):
     if request.user.is_authenticated:
         logout(request)
 
-    return redirect('/signin')
+    return redirect('signin')

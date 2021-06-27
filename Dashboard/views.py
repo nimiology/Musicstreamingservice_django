@@ -173,6 +173,14 @@ def ChangeAlbumDetail(request, Slug):
                 context['SEND'] = 'Succesful!'
         context['FORMS'] = FORMS
 
-        return render(request,'Dashboard/Album.html',context)
+        return render(request, 'Dashboard/AlbumInfo.html', context)
     return redirect('/signin')
 
+def ALBUMS(request):
+    if request.user.is_authenticated:
+        LISTALBUMS = Album.objects.filter(Artist__USERNAME__exact=request.user.username)
+        context = {
+            'ALBUMS' : LISTALBUMS
+        }
+        return render(request,'Dashboard/ALBUMS.html',context)
+    return redirect('/signin')
