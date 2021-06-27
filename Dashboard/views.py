@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django import forms
+from django.urls import reverse
 from Songs.models import Album, SingleTrack
 from Users.models import USERSINFO
 from Songs.Ulitis import Validator
@@ -41,7 +42,7 @@ def TrackUploader(request):
         context['FORMS'] = UPLOADERFORMS
         return render(request, 'Dashboard/Trackuploader.html', context)
 
-    return redirect('/signin')
+    return redirect(reverse('Users:SignIn'))
 
 def AlbumAdder(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -66,7 +67,7 @@ def AlbumAdder(request):
         context['FORMS'] = ALBUMCREATOR
         return render(request,'Dashboard/AlbumAdder.html',context)
     else:
-        return redirect('/signin')
+        return redirect(reverse('Users:SignIn'))
 
 def UserInfo(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -100,9 +101,9 @@ def UserInfo(request):
 
         return render(request,'Dashboard/UserInfo.html',context)
     else:
-        return redirect('/signin')
+        return redirect(reverse('Users:SignIn'))
 
-def ChangeSongDetail(request, Slug):
+def EditSong(request, Slug):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
         TRACK =  get_object_or_404(SingleTrack,Slug=Slug)
@@ -148,9 +149,9 @@ def ChangeSongDetail(request, Slug):
 
         return render(request,'Dashboard/Trackuploader.html',context)
 
-    return redirect('/signin')
+    return redirect(reverse('Users:SignIn'))
 
-def ChangeAlbumDetail(request, Slug):
+def EditAlbum(request, Slug):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
         ALBUMS = get_object_or_404(Album,Slug=Slug)
@@ -174,7 +175,7 @@ def ChangeAlbumDetail(request, Slug):
         context['FORMS'] = FORMS
 
         return render(request, 'Dashboard/AlbumInfo.html', context)
-    return redirect('/signin')
+    return redirect(reverse('Users:SignIn'))
 
 def ALBUMS(request):
     if request.user.is_authenticated:
@@ -183,7 +184,7 @@ def ALBUMS(request):
             'ALBUMS' : LISTALBUMS
         }
         return render(request,'Dashboard/ALBUMS.html',context)
-    return redirect('/signin')
+    return redirect(reverse('Users:SignIn'))
 
 def Songs(request):
     if request.user.is_authenticated:
@@ -192,4 +193,4 @@ def Songs(request):
             'SONGS':LISTSONGS
         }
         return render(request,'Dashboard/Songs.html',context)
-    return redirect('/signin')
+    return redirect(reverse('Users:SignIn'))

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+
 from .forms import SIGNUP, LOGIN, FORGET
 from .models import USERSINFO
 from Songs.models import SingleTrack, Album
@@ -28,14 +30,15 @@ def SignUp(request):
             print(DATA)
             CREATEUSER(DATA)
             context['SIGNUP'] = 'USER CREATED'
-            return redirect('/signin')
+            return redirect(reverse('Users:SignIn'))
     else:
+        #todo : MAKE THIS DYNAMIC
         return redirect('/Dashboard')
 
     return render(request, 'Users/SignUp.html', context)
 
 
-def LogIn(request):
+def SignIn(request):
     LOGINSTATUS = request.user.is_authenticated
     print(f'[LOGIN STATUS]{LOGINSTATUS}')
     if not LOGINSTATUS:
@@ -58,6 +61,7 @@ def LogIn(request):
             else:
                 print("[LOGIN] User doesn't FOUND!")
     else:
+        # todo : MAKE THIS DYNAMIC
         return redirect('/Dashboard')
 
     return render(request, 'Users/LOGIN.html', context)
@@ -75,6 +79,7 @@ def ForgetPassword(request, SLUG):
             QS.save()
 
             context['SEND'] = 'PASSWORD CHANGED!'
+            return redirect(reverse('Users:SignIn'))
         context['FORMS'] = FORMS
         return render(request, 'Users/forgetpassword.html', context)
     raise Http404('Not Found !')
@@ -84,7 +89,7 @@ def LOGOUT(request):
     if request.user.is_authenticated:
         logout(request)
 
-    return redirect('signin')
+    return redirect(reverse('Users:SignIn'))
 
 
 def UserSongs(request, USERNAME):
