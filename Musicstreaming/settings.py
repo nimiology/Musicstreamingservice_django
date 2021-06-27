@@ -89,7 +89,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_PWD_MODULE="django.contrib.auth.password_validation."
+AUTH_PWD_MODULE="django.contrib.Users.password_validation."
 
 AUTH_PASSWORD_VALIDATORS = [
     {

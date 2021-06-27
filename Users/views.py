@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.contrib.auth import authenticate, login,logout
-from .forms import SIGNUP, LOGIN,FORGET
+from django.contrib.auth import authenticate, login, logout
+from .forms import SIGNUP, LOGIN, FORGET
 from .models import USERSINFO
+from Songs.models import SingleTrack, Album
 
 
 def CREATEUSER(INFO):
-    USER = USERSINFO(NAME=INFO['Name'],USERNAME=INFO['UserName'],EMAIL=INFO['Email'],PASSWORD=INFO['Password'],Slug=INFO['UserName'],CHANGE=False)
+    USER = USERSINFO(NAME=INFO['Name'], USERNAME=INFO['UserName'], EMAIL=INFO['Email'], PASSWORD=INFO['Password'],
+                     Slug=INFO['UserName'], CHANGE=False)
     USER.save()
+
 
 def SignUp(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -29,7 +32,8 @@ def SignUp(request):
     else:
         return redirect('/Dashboard')
 
-    return render(request, 'auth/SignUp.html', context)
+    return render(request, 'Users/SignUp.html', context)
+
 
 def LogIn(request):
     LOGINSTATUS = request.user.is_authenticated
@@ -56,9 +60,10 @@ def LogIn(request):
     else:
         return redirect('/Dashboard')
 
-    return render(request, 'auth/LOGIN.html', context)
+    return render(request, 'Users/LOGIN.html', context)
 
-def ForgetPassword(request,SLUG):
+
+def ForgetPassword(request, SLUG):
     QS = USERSINFO.objects.filter(PasswordForget__exact=SLUG)
     context = {}
     if QS.exists():
@@ -71,11 +76,30 @@ def ForgetPassword(request,SLUG):
 
             context['SEND'] = 'PASSWORD CHANGED!'
         context['FORMS'] = FORMS
-        return render(request, 'auth/forgetpassword.html',context)
+        return render(request, 'Users/forgetpassword.html', context)
     raise Http404('Not Found !')
+
 
 def LOGOUT(request):
     if request.user.is_authenticated:
         logout(request)
 
     return redirect('signin')
+
+
+def UserSongs(request, USERNAME):
+    SONG_LIST = SingleTrack.objects.filter(Album__Artist__Slug__exact=USERNAME)
+    print(SONG_LIST)
+    context = {
+        'SONGS': SONG_LIST
+    }
+    return render(request, 'Users/Songs.html', context)
+
+
+def UserAlbums(request, USERNAME):
+    ALBUMS_LIST = Album.objects.filter(Artist__Slug__exact=USERNAME)
+    print(ALBUMS_LIST)
+    context = {
+        'ALBUMS': ALBUMS_LIST
+    }
+    return render(request, 'Users/Albums.html', context)
