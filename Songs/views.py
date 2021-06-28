@@ -22,6 +22,17 @@ def ALBUM(request,Slug):
 
     return render(request, 'Songs/Album.html', context)
 
+
+def PLAYLIST(request,Slug):
+    playlist = get_object_or_404(Playlist,Slug=Slug)
+    singletrack_list = SingleTrack.objects.filter(AddedToPlaylist__Slug=Slug)
+    context = {
+        'Singles': singletrack_list,
+        'Playlist':playlist
+    }
+
+    return render(request, 'Songs/PLAYLIST.html', context)
+
 #todo: playlist
 #SEARCH
 def Search(request):
