@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TrackUploader,PlaylistAdder, AlbumAdder, UserInfo, EditSong, EditAlbum, ALBUMS, Songs
+from .views import TrackUploader,PlaylistAdder, AddSongToPlaylist, AlbumAdder, UserInfo, EditSong, EditAlbum, ALBUMS, Songs
 
 app_name = 'Dashboard'
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path('Songs/<Slug>', EditSong, name='EditSong'),
     path('Albums', ALBUMS, name='Albums'),
     path('Songs', Songs, name='Songs'),
-    path('Playlists/Add',PlaylistAdder, name='PlaylistAdder')
+    path('Playlists/Add',PlaylistAdder, name='PlaylistAdder'),
+    path('Songs/<Slug>/Playlists',AddSongToPlaylist,name='AddSongToPlaylist')
 ]

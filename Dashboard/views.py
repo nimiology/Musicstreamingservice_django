@@ -125,7 +125,7 @@ def UserInfo(request):
 def EditSong(request, Slug):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
-        TRACK =  get_object_or_404(SingleTrack,Slug=Slug)
+        TRACK =  SingleTrack.objects.get(Slug=Slug,Album__Artist__USERNAME=request.user.username)
         context = {
             'Track' : TRACK
         }
@@ -135,22 +135,18 @@ def EditSong(request, Slug):
             Album = forms.ModelChoiceField(queryset=Album.objects.filter(Artist__USERNAME__exact=request.user.username),
                                            initial=TRACK.Album)
 
-            ARTIST = USERSINFO.objects.all()
             CHOICES = []
-            for i in range(0, len(ARTIST)):
-                if ARTIST[i].USERNAME != request.user.username:
-                    CHOICES.append((ARTIST[i], ARTIST[i]))
+            for ARTIST in USERSINFO.objects.all():
+                if ARTIST.USERNAME != request.user.username:
+                    CHOICES.append((ARTIST, ARTIST))
 
-            FEATURESTRACK = []
-            for artist in TRACK.Features.all():
-                FEATURESTRACK.append(str(artist))
             INITIAL = []
-            for CHOICE in CHOICES:
-                if str(CHOICE[0]) in FEATURESTRACK:
-                    INITIAL.append(str(CHOICE[0]))
+            for artist in TRACK.Features.all():
+                INITIAL.append(str(artist))
+
 
             Features = forms.MultipleChoiceField(choices=CHOICES,initial=INITIAL,required=False)
-            SongFile = forms.FileField(validators=[Validator])
+            SongFile = forms.FileField(validators=[Validator],required=False)
 
         if request.method == 'POST':
             FORMS = FORMS(request.POST,request.FILES)
@@ -173,7 +169,7 @@ def EditSong(request, Slug):
 def EditAlbum(request, Slug):
     LOGINSTATUS = request.user.is_authenticated
     if LOGINSTATUS:
-        ALBUMS = get_object_or_404(Album,Slug=Slug)
+        ALBUMS = Album.objects.get(Slug=Slug,Artist__USERNAME=request.user.username)
         context = {
             'Album':ALBUMS
         }
@@ -212,4 +208,31 @@ def Songs(request):
             'SONGS':LISTSONGS
         }
         return render(request,'Dashboard/Songs.html',context)
+    return redirect(reverse('Users:SignIn'))
+
+def AddSongToPlaylist(request,Slug):
+    if request.user.is_authenticated:
+        context = {}
+        TRACK = SingleTrack.objects.get(Slug=Slug)
+        class FORMS(forms.Form):
+            USER_PLAYLIST = Playlist.objects.filter(Owner__USERNAME__exact=request.user.username)
+            CHOICES = []
+            for PLAYLIST in USER_PLAYLIST:
+                CHOICES.append((PLAYLIST.Slug,PLAYLIST))
+
+            CHOOSED = []
+            for PLAYLIST in TRACK.AddedToPlaylist.filter(Owner__USERNAME__exact=request.user.username):
+                CHOOSED.append(str(PLAYLIST.Slug))
+
+            PLAYLISTS = forms.MultipleChoiceField(choices=CHOICES,initial=CHOOSED)
+
+        FORMS = FORMS(request.POST or None)
+        if FORMS.is_valid():
+            DATA = FORMS.cleaned_data
+            print(DATA)
+            PLAYLISTS = Playlist.objects.filter(Slug__in=DATA['PLAYLISTS'])
+            TRACK.AddedToPlaylist.set(PLAYLISTS)
+
+        context['FORMS'] = FORMS
+        return render(request,'Dashboard/Trackuploader.html',context)
     return redirect(reverse('Users:SignIn'))
