@@ -3,14 +3,13 @@ from .models import SingleTrack,Album,Playlist
 from .forms import SEARCH
 
 
-
-
 def SINGLETRACK(request,Slug):
     SINGLETRACK = get_object_or_404(SingleTrack,Slug=Slug)
     context = {
         'Single':SINGLETRACK
     }
     return render(request,'Songs/SingleTrack.html',context)
+
 
 def ALBUM(request,Slug):
     Albums = get_object_or_404(Album,Slug=Slug)
@@ -33,8 +32,7 @@ def PLAYLIST(request,Slug):
 
     return render(request, 'Songs/PLAYLIST.html', context)
 
-#todo: playlist
-#SEARCH
+
 def Search(request):
     if request.method == 'POST':
         TITLE = request.POST['Search']
