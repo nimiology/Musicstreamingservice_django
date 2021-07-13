@@ -1,5 +1,8 @@
 #About the project
 <h4>This project was supposed to be like Spotify but now it's like garbage😂</h4>
+![.Star](https://img.shields.io/github/stars/nimiology/Musicstreamingservice?color=yellow&style=for-the-badge)
+![.Follow](https://img.shields.io/github/followers/nimiology?color=white&label=Nima&style=for-the-badge)
+![.Watch](https://img.shields.io/github/watchers/nimiology/Musicstreamingservice?color=green&style=for-the-badge)
 
 ##Requirements
 <pre>
