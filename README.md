@@ -1,16 +1,21 @@
-#About the project
-<h4>This project was supposed to be like Spotify but now it's like garbage😂</h4>
+# About the project
+
+This project was supposed to be like Spotify but now it's like garbage😂
+
 ![.Star](https://img.shields.io/github/stars/nimiology/Musicstreamingservice?color=yellow&style=for-the-badge)
 ![.Follow](https://img.shields.io/github/followers/nimiology?color=white&label=Nima&style=for-the-badge)
 ![.Watch](https://img.shields.io/github/watchers/nimiology/Musicstreamingservice?color=green&style=for-the-badge)
 
-##Requirements
-<pre>
+## Requirements
+
+```
 django
 pillow
-</pre>
+```
 
-##Getting Started
+
+## Getting Started
+
 1. Download or clone this repository
 2.  ```
     pip install django <br>pip install pillo
