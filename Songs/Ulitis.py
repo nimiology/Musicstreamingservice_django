@@ -7,11 +7,7 @@ import string
 def slug_genrator():
     letters_str = string.ascii_letters + string.digits
     letters = list(letters_str)
-    SLUG = ''
-    for char in range(0, 101):
-        SLUG += random.choice(letters)
-
-    return SLUG
+    return "".join(random.choice(letters) for _ in range(101))
 
 def Validator(value):
     ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
