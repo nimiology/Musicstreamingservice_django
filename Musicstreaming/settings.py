@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from decouple import config
+from decouple import config, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'corsheaders',
-    
-    'Songs.apps.SongsConfig',
-    'Users.apps.AuthenticateConfig',
+
+    'songs.apps.SongsConfig',
+    'users.apps.AuthenticateConfig',
 ]
 
 MIDDLEWARE = [

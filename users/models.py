@@ -7,4 +7,4 @@ class UserInfo(models.Model):
     relatedName = 'userInfo'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name=relatedName)
-    profilePic = models.ImageField(upload_to=upload_image_path,default='profiles/DEFAULT.png')
+    profilePic = models.ImageField(upload_to=upload_image_path, default='profiles/DEFAULT.png')
