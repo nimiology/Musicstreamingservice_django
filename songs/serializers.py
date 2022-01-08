@@ -1,10 +1,12 @@
 from rest_framework import serializers
+from djoser.serializers import UserSerializer
 
 from songs.models import Album
 
 
 class AlbumSerializer(serializers.ModelSerializer):
+    artist = UserSerializer(required=False)
+
     class Meta:
         model = Album
-        exclude = ['slug']
-
+        fields = '__all__'

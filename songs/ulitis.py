@@ -9,7 +9,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
 def slug_generator():
     letters_str = string.ascii_letters + string.digits
     letters = list(letters_str)
-    return "".join(random.choice(letters) for _ in range(101))
+    return "".join(random.choice(letters) for _ in range(50))
 
 
 def Validator(value):

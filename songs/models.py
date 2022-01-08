@@ -50,8 +50,8 @@ class Playlist(models.Model):
 
 
 def slug_pre_save(sender, instance, *args, **kwargs):
-    if not instance.Slug:
-        slug = slug_generator()
+    if not instance.slug:
+        instance.slug = slug_generator()
 
 
 pre_save.connect(slug_pre_save, sender=Track)
