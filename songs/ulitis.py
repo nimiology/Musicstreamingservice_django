@@ -33,3 +33,5 @@ def upload_cover_path(instance, filename):
 
 class CreateRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView, CreateAPIView):
     pass
+
+

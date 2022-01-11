@@ -1,3 +1,4 @@
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from songs.models import Album
@@ -29,3 +30,9 @@ class AlbumAPI(CreateRetrieveUpdateDestroyAPIView):
 
     def perform_update(self, serializer):
         return serializer.save(artist=self.request.user, slug=self.get_object().slug)
+
+
+class UserAlbumAPI(ListAPIView):
+    serializer_class = AlbumSerializer
+    queryset = Album.objects.all()
+    filterset_fields = ['artist', 'title']
