@@ -12,7 +12,7 @@ class Album(models.Model):
     title = models.CharField(max_length=512)
     slug = models.SlugField(max_length=512, null=True, blank=True)
     cover = models.ImageField(upload_to=upload_cover_path)
-    createDTime = models.DateTimeField(auto_now_add=True)
+    createdTime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.artist.username} - {self.title}'
