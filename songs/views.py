@@ -1,9 +1,9 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from songs.models import Album, Playlist
+from songs.models import Album, Playlist, Track
 from songs.permissions import IsArtist
-from songs.serializers import AlbumSerializer, PlaylistSerializer
+from songs.serializers import AlbumSerializer, PlaylistSerializer, TrackSerializer
 from songs.ulitis import CreateRetrieveUpdateDestroyAPIView
 
 
@@ -47,3 +47,14 @@ class PlaylistsAPI(ListAPIView):
     serializer_class = PlaylistSerializer
     queryset = Playlist.objects.all()
     filterset_fields = ['artist', 'title']
+
+
+class TrackAPI(AlbumAPI):
+    serializer_class = TrackSerializer
+    queryset = Track.objects.all()
+
+
+class TracksAPI(ListAPIView):
+    serializer_class = TrackSerializer
+    queryset = Track.objects.all()
+    filterset_fields = ['artist', 'title', 'album', 'features']

@@ -25,7 +25,7 @@ class Track(models.Model):
     title = models.CharField(max_length=1000)
     slug = models.SlugField(blank=True, unique=True, max_length=102)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name=relatedName)
-    feature = models.ManyToManyField(User, blank=True, related_name='featurings')
+    features = models.ManyToManyField(User, blank=True, related_name='featurings')
     songFile = models.FileField(validators=[Validator], upload_to=upload_cover_path)
     createdTime = models.DateTimeField(auto_now_add=True)
 
